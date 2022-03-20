@@ -116,7 +116,13 @@ Athena-bp3
 ### Query exhausted resources at this scale factor
 - Athena uses Presto as a query engine which runs different stages of a query in memory
 - for a small number of queries, and for certain operators, Presto brings all the data into a single node, and it may fail because it cannot spill pages to disk when memory is exhausted. the service team has rectified this for 'Group By' operator.
-- 
+- in absence of spill to disk functionality on all operators, we recommend customers:
+  * re-organize queries: 
+    *(1) instead of select *, only include the columns that the customer needs
+    *(2) optimize ORDER BY clause
+    *(3) optimize Joins
+    *(4) partition data
+  * convert data into Parquet/ORC formats & consider partitioning data
 ### Generic internal error: Value 82183 exceeds MAX_SHORT
 - the customer sees an error message that says 'transient issue' but the stack says 'value 82183 exceed MAX_SHORT'
 - SOLUTION: download the EMR logs to find the corrupted file or change the data type of the column in INT.
