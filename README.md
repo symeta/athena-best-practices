@@ -22,7 +22,14 @@ by using tehe column in the WHERE clous, the partitions that are scanned in a qu
 - [link for details](https://docs.aws.amazon.com/athena/latest/ug/partitions.html) 
 
 
+### data bucketing
+- bucketing the data within a single partition is another way to partition data
+- with bucketing, you can specify one or more columns containing rows that you want to group together, and put those rows into multiple buckets
+- allows you to quey only the bucket that you need to read when the buckted columns value is specified, which can dramatically reduce the number of data to read
+- within Athena, you can specify the bucketed column inside your Create Table statement by specifying CLUSTERED BY (<buckted columns>) INTO <number of bucktes> BUCKETS
+- the number of buckets should be so that the files are of optimal size
 
+  
 
 ```SQL
 CREATE TABLE user_info_bucketed(user_id BIGINT, firstname STRING, lastname STRING)
