@@ -9,7 +9,9 @@ the amount of data scanned by each query can be restricted by partitioning data,
 Athena leverages Hive for partitioning data. To create a table with partitions, PARTITIONED BY must to used to define keys by which to partition data when create table using the CREATE TABLE statement.
 
 by using tehe column in the WHERE clous, the partitions that are scanned in a query can be restricted.
+-athena bp1
 
-| Query | Non-Partitioned Table | Cost | Partitioned Table | Cost | Savings |
-| ----- | Run Time | Data Scanned | Run Time | Data Scanned | ---- | ---- |
-| SELECT count(*) FROM linetime WHERE l_shipdate = '1996-09-01' | 9.71 seconds | 74.1GB | 2.16 seconds | 29.06 MB | $0.0001 | 99% cheaper, 77% faster |
+### how to dicide which columns to partition on
+| Hive Style Partitioning | Non Hive Style Partitioning |
+| ----------------------- | --------------------------- |
+| mys3bucket/myprefix/year=2020/month=06/day=15 | mys3bucket/myprefix/2020/06/15 |
