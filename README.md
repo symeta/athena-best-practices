@@ -15,3 +15,8 @@ by using tehe column in the WHERE clous, the partitions that are scanned in a qu
 | Hive Style Partitioning | Non Hive Style Partitioning |
 | ----------------------- | --------------------------- |
 | mys3bucket/myprefix/year=2020/month=06/day=15 | mys3bucket/myprefix/2020/06/15 |
+
+- columns that are used as filters are good candidates for partitioning
+- as the number of partitions in your table increases, the higher the overhead of retrieving and processing the partition metadata, the smaller your files
+- if your data is heavily skewed to one partitoin value, and most queries use that value, then the overhead may wipe out the initial benefit
+- [link for details](https://docs.aws.amazon.com/athena/latest/ug/partitions.html) 
