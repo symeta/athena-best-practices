@@ -48,8 +48,38 @@ CLUSTERED BY(user_id) INTO 256 BUCKETS;
 | LZO | No | Low | Fast |
 | Snappy | No | Low | Very Fast |
 
-- Most popular columnar formats - Parquet and ORC. Default algorithm Parquet applies is Snappy, it can also support GZIP and LZO. Default algorithm ORC applies is ZLIB, it can also support Snappy.
+- Most popular columnar formats - Parquet and ORC. Default algorithm Parquet applies is Snappy, it can also support GZIP and LZO. Default algorithm ORC applies is ZLIB, it can also support Snappy as well as no compression.
 - Generally, better compression ratios or skipping blocks of data means reading fewer bytes from Amazon S3, leading to better query performance
 - One parameter that could be tuned is the block size or stripe size. The block size in Parquet or stripe size in ORC represent the maximum number rows that can fit into one block in terms of size in bytes. Default: 128MB for Parquet, 64MB for ORC.
 - if block size/stripe size is small - more data being scanned by the query
+
+### Optimize ORDER BY clause
+- the ORDER BY clause returns data in sorted order
+- in order to do this, Presto must send all rows of data to a single worker node first and them sort them
+- it is advisable to look at the top pr bottom N values while using ORDER BY clause, then use a LIMIT clause to reduce the cost of the sort significantly by pushing the sorting and limiting to individual worker nodes, rather than the sorting being done in an single worker.
+
+Athena-bp2
+ 
+### Optimize JOIN clause
+- Presto does not support join reordering yet so, it will perform joins from left to right.
+- You should specify the tables from largest to smallest while ensuring two tables are not specified together the will result in a cross join
+
+Athena-bp3
+
+### Optimize Group By Cluase
+- the GROUP BY operator distributes rows based on the GROUP BY colmns to worker nodes, which hold the GROUP BY values in memory
+- the GROUP BY columns are looked up in memory and the values are compared as the rows are being ingested.
+- the values are then aggregated together when the GROUP BY column matches.
+- When using GROUP BY in your query, order the columns by the cardinality by the highest cardinality (that is, most number of unique values, distributed evenly) to the lowest.
+- example: 
+ ```SQL
+ select state, gender, count(*) from tablename GROUP BY state, gender
+ ```
+- another optimization will be to use numbers instead of strings, as numbers require less memory to store and are faster to compare than strings
+- the numbers represent the locdation of the grouped column name ins the SELECT statement
+- example: 
+ ```SQL
+ select state, gender, count(*) from tablename GROUP BY 1, 2
+ ```
+- a 3rd optimization is to limit the number of columns within the SELECT statement to reduce the amount of memory required to store, as rows are held in memory and aggregated for the GROUP BY clause.
 
