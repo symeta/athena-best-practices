@@ -118,5 +118,12 @@ Athena-bp3
 
 ### Cannot find query status of DDL
 ```log
- QUERY NOT_FOUND msg: 
+ QUERY NOT_FOUND msg: "Cannot find query status of DDL: 56b07e5d-1c21-4723-80af-c9fbf3ff01e5"
 ```
+- the query was not able to get DDL status
+- known limitation while running "MSCK repair" or "show partitions" - due to too many partitions in the table or too many objects in the partition
+- the walkaround is to write a script using:
+```SQL
+ ALTER TABLE table_name ADD [if not exists] PARTITION
+```
+
