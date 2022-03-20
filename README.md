@@ -47,3 +47,9 @@ CLUSTERED BY(user_id) INTO 256 BUCKETS;
 | bzip2 | Yes | Very High | Slow |
 | LZO | No | Low | Fast |
 | Snappy | No | Low | Very Fast |
+
+- Most popular columnar formats - Parquet and ORC. Default algorithm Parquet applies is Snappy, it can also support GZIP and LZO. Default algorithm ORC applies is ZLIB, it can also support Snappy.
+- Generally, better compression ratios or skipping blocks of data means reading fewer bytes from Amazon S3, leading to better query performance
+- One parameter that could be tuned is the block size or stripe size. The block size in Parquet or stripe size in ORC represent the maximum number rows that can fit into one block in terms of size in bytes. Default: 128MB for Parquet, 64MB for ORC.
+- if block size/stripe size is small - more data being scanned by the query
+
