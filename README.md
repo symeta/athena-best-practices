@@ -115,6 +115,9 @@ Athena-bp3
   * Faster listing
   * Fewer amazon s3 requests
   * Less metadata to manager
+ 
+### Essential Data Pre-processing
+- when building a data warehouse, we should get a balance between easy of use and performance. By simply writing SQL to achieve ETL, and queries, Athena is definitely easy of use. However, Athena cannot take the place of all the other tools, especially when it comes to dealing with larger volume of data. As a result, essential data pre-processing should be done before using Athena, Glue is a good choice to handle such data pre-processing.
 
 ## Athena Deep Dive Trouble-Shooting
 ### Query exhausted resources at this scale factor
