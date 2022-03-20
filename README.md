@@ -83,3 +83,28 @@ Athena-bp3
  ```
 - a 3rd optimization is to limit the number of columns within the SELECT statement to reduce the amount of memory required to store, as rows are held in memory and aggregated for the GROUP BY clause.
 
+### Optimize LIKE operator
+- regular expressions are better to use instead of the LIKE clause when you are filtering for multiple values on a string column
+- this is particularly useful when you are comparing a long list of values
+
+ Athena bp4
+### Use approximate functions
+- when exploring larger datasets, a common use case is to find the count of distinct values for a certain column usign COUNT(DISTINCT column)
+- if you are looking for which webpages to dive deep into, then using APPROX_DISTINCT() is feasible
+ 
+ Athena bp5
+
+### Use LIMIT clause
+- instead of selecting all the columns while running a query, LIMIT the final SELECT statement to only the columns that you need
+- this reduces the number of data that needs to be processed through the entire query execution pipeline
+- this is also helpful when you perform multiple joins or aggregations on a query
+
+ Athena bp5
+
+### Optimize file size
+- Queries run more efficiently when reading data can be parallelized and when blocks of data can be read sequentially
+- if files are too small (generally less than 128MB), the execution engine might be spending additional time.
+- if a file is not splittable and the files are too large, the query processing waits until a single reader has completed reading the entire file. That can reduce parallelism
+- one remedy to solve the small file problem is to use the S3DistCP utility on Amazon EMR
+  [S3DistCP Detail](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/UsingEMR_s3distcp.html)
+ 
