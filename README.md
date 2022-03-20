@@ -145,3 +145,22 @@ HIVE_CURSOR_ERROR: please reduce your request rate. (Service: Amazon S3: Status 
 - to solve this error, we can edit the crawler and enable the setting that says [Update all new and existing partitions with metadata from the table], after that crawl the table again.
 - in addition, you can set a crawler configuration option to InheritFromTable
 - this option makes sure that partitions inhert from metadata properties such as their classification, input format, output format, SerDe information, and schema from their parent table.
+
+### Hive cursor error - Cannot read value
+- first, tell the customer to make sure that the columns data type and create table statement matches.
+- this usually happens when we create a table using Glue crawler when the crawler reads the column as String instead of Bigint.
+- to rectify this, once Glue crawler creates the table metadata, you can edit the table's column type and save it.
+- after changing the column from type String to  BIG INT, then re-running the crawler again gives a new error message that says 'Internal Service Exception'
+- previewing the table in Athena gives HIVE_PARTITION_SCHEMA_MISMATCH error
+- this is because Glue Crawler Hive representation only supports String for Map type while Athena's Map type supports all primitive types as keys.
+- when we try to update the type in Data Catalog and then recrawl, it causes 'InternalServiceException' because Crawler thinks it's invalid.
+
+### Error: 'Hive write close error' while running CTAS
+```log
+'HIVE_WRITER_CLOSE_ERROR: Error committing write: java.lang.IllegalStateException: Reached max limit of upload attempts for part. You may need to manually clean the data at location 's3://bucket/Unsaved/2019/02/14/tables/abc' before retring. Athena will not delete data in your account.'
+```
+- usually occurs when Athena is trying to upload large number of files at once on the S3 bucket location which is causing S3 bucket throttling
+- Athena uploads results in chunks in parallel and upload for some chunks may be canceled and retried if the upload isn't going well.
+- may by a transient issue related to how long a particular part is taking to upload to S3, try to re-run the query
+- might be due to the limit on the size of each part in the multi part upload
+- reduce ammount of data scanned in query by adding partitions or use bucketing along with partitioning.
