@@ -111,3 +111,12 @@ Athena-bp3
   * Faster listing
   * Fewer amazon s3 requests
   * Less metadata to manager
+
+### Generic internal error: Value 82183 exceeds MAX_SHORT
+- the customer sees an error message that says 'transient issue' but the stack says 'value 82183 exceed MAX_SHORT'
+- SOLUTION: download the EMR logs to find the corrupted file or change the data type of the column in INT.
+
+### Cannot find query status of DDL
+```log
+ QUERY NOT_FOUND msg: 
+```
