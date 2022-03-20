@@ -43,7 +43,7 @@ CLUSTERED BY(user_id) INTO 256 BUCKETS;
  
 | Algorithm | Splittable? | Compression ratio | Compress + Decompress speed |
 | --------- | ----------- | ----------------- | --------------------------- |
-| Gzip(DEFLATE) | No| High | Medium |
+| Gzip | No| High | Medium |
 | bzip2 | Yes | Very High | Slow |
 | LZO | No | Low | Fast |
 | Snappy | No | Low | Very Fast |
