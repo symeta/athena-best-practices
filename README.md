@@ -106,5 +106,8 @@ Athena-bp3
 - if files are too small (generally less than 128MB), the execution engine might be spending additional time.
 - if a file is not splittable and the files are too large, the query processing waits until a single reader has completed reading the entire file. That can reduce parallelism
 - one remedy to solve the small file problem is to use the S3DistCP utility on Amazon EMR
-  [S3DistCP Detail](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/UsingEMR_s3distcp.html)
- 
+  * [S3DistCP Detail](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/UsingEMR_s3distcp.html)
+- the below are few benefits of having larger files:
+  * Faster listing
+  * Fewer amazon s3 requests
+  * Less metadata to manager
