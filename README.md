@@ -157,7 +157,9 @@ HIVE_CURSOR_ERROR: please reduce your request rate. (Service: Amazon S3: Status 
 
 ### Error: 'Hive write close error' while running CTAS
 ```log
-'HIVE_WRITER_CLOSE_ERROR: Error committing write: java.lang.IllegalStateException: Reached max limit of upload attempts for part. You may need to manually clean the data at location 's3://bucket/Unsaved/2019/02/14/tables/abc' before retring. Athena will not delete data in your account.'
+'HIVE_WRITER_CLOSE_ERROR: Error committing write: java.lang.IllegalStateException: Reached max limit of upload attempts for part. 
+ You may need to manually clean the data at location 's3://bucket/Unsaved/2019/02/14/tables/abc' before retring. 
+ Athena will not delete data in your account.'
 ```
 - usually occurs when Athena is trying to upload large number of files at once on the S3 bucket location which is causing S3 bucket throttling
 - Athena uploads results in chunks in parallel and upload for some chunks may be canceled and retried if the upload isn't going well.
