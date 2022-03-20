@@ -126,4 +126,4 @@ Athena-bp3
 ```SQL
  ALTER TABLE table_name ADD [if not exists] PARTITION
 ```
-
+- [detail link](https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-AddPartitions)
