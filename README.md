@@ -20,3 +20,13 @@ by using tehe column in the WHERE clous, the partitions that are scanned in a qu
 - as the number of partitions in your table increases, the higher the overhead of retrieving and processing the partition metadata, the smaller your files
 - if your data is heavily skewed to one partitoin value, and most queries use that value, then the overhead may wipe out the initial benefit
 - [link for details](https://docs.aws.amazon.com/athena/latest/ug/partitions.html) 
+
+
+
+
+```SQL
+CREATE TABLE user_info_bucketed(user_id BIGINT, firstname STRING, lastname STRING)
+COMMENT 'A bucketed copy of user_info'
+PARTITIONED BY(ds STRING)
+CLUSTERED BY(user_id) INTO 256 BUCKETS;
+```
