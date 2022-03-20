@@ -136,3 +136,12 @@ HIVE_CURSOR_ERROR: please reduce your request rate. (Service: Amazon S3: Status 
 - here, the customer needs to partition the bucket to accommodate the higher request rate.
 - if they are not consistently hitting these throttles, re-trying would take care of this, but Athena does not automatically retry.
 - customer can follow best practices mentioned here: [Optimizing Amazon S3 Performance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance.html)
+- recommend storing and formatting the data in such a way that it is optimized for Big Data processing engines, which includes using columnar formats like Parquet or ORC.
+- also, make sure that the file size is at least 256MB and not greater than 1GB.
+
+### Hive partition schema mismatch
+- customer might see error 'HIVE_PARTITION_SCHEMA_MISMATCH' when crawling a partitioned table in Glue.
+- until the option of "InheritFromTable" was implemented, the customer ahd to update partitions manually
+- to solve this error, we can edit the crawler and enable the setting that says [Update all new and existing partitions with metadata from the table], after that crawl the table again.
+- in addition, you can set a crawler configuration option to InheritFromTable
+- this option makes sure that partitions inhert from metadata properties such as their classification, input format, output format, SerDe information, and schema from their parent table.
