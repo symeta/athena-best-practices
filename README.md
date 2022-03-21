@@ -148,7 +148,8 @@ Athena-bp3
 
 ### Hive cursor error: Please reduce your request rate
 ```log
-HIVE_CURSOR_ERROR: please reduce your request rate. (Service: Amazon S3: Status Code: 503; Eooro Code: SlowDown; Request ID: FE72543AC6E4116A)
+HIVE_CURSOR_ERROR: please reduce your request rate. 
+(Service: Amazon S3: Status Code: 503; Eooro Code: SlowDown; Request ID: FE72543AC6E4116A)
 ```
 - this error si because of S3 throttling, which means you have exceeded the request rates.
 - here, the customer needs to partition the bucket to accommodate the higher request rate.
