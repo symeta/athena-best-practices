@@ -13,7 +13,8 @@ the amount of data scanned by each query can be restricted by partitioning data,
 Athena leverages Hive for partitioning data. To create a table with partitions, PARTITIONED BY must to used to define keys by which to partition data when create table using the CREATE TABLE statement.
 
 by using tehe column in the WHERE clous, the partitions that are scanned in a query can be restricted.
--athena bp1
+<img width="1103" alt="athena bp1" src="https://user-images.githubusercontent.com/97269758/159197365-05ff34bf-54cc-413b-83e1-97eeb6890594.png">
+
 
 #### how to dicide which columns to partition on
 | Hive Style Partitioning | Non Hive Style Partitioning |
@@ -63,13 +64,17 @@ CLUSTERED BY(user_id) INTO 256 BUCKETS;
 - it is advisable to look at the top pr bottom N values while using ORDER BY clause, then use a LIMIT clause to reduce the cost of the sort significantly by pushing the sorting and limiting to individual worker nodes, rather than the sorting being done in an single worker.
 
 Athena-bp2
+<img width="928" alt="Screen Shot 2022-03-20 at 10 54 24 AM" src="https://user-images.githubusercontent.com/97269758/159197411-b36144c3-db78-4934-a0f4-42a7d8594534.png">
+
  
 ### Optimize JOIN clause
 - Presto does not support join reordering yet so, it will perform joins from left to right.
 - You should specify the tables from largest to smallest while ensuring two tables are not specified together the will result in a cross join
 
 Athena-bp3
+<img width="1036" alt="Screen Shot 2022-03-20 at 10 56 34 AM" src="https://user-images.githubusercontent.com/97269758/159197616-1b4bd99b-d018-4516-b582-89e717829d3b.png">
 
+ 
 ### Optimize Group By Cluase
 - the GROUP BY operator distributes rows based on the GROUP BY colmns to worker nodes, which hold the GROUP BY values in memory
 - the GROUP BY columns are looked up in memory and the values are compared as the rows are being ingested.
@@ -92,11 +97,14 @@ Athena-bp3
 - this is particularly useful when you are comparing a long list of values
 
  Athena bp4
+ <img width="914" alt="Screen Shot 2022-03-20 at 11 13 01 AM" src="https://user-images.githubusercontent.com/97269758/159197660-fbeed024-26b0-4800-a424-94da90a319de.png">
+
 ### Use approximate functions
 - when exploring larger datasets, a common use case is to find the count of distinct values for a certain column usign COUNT(DISTINCT column)
 - if you are looking for which webpages to dive deep into, then using APPROX_DISTINCT() is feasible
  
  Athena bp5
+<img width="948" alt="Screen Shot 2022-03-20 at 11 15 23 AM" src="https://user-images.githubusercontent.com/97269758/159197667-22463cf5-c3a4-488d-955b-d82f604dcabb.png">
 
 ### Use LIMIT clause
 - instead of selecting all the columns while running a query, LIMIT the final SELECT statement to only the columns that you need
@@ -104,6 +112,7 @@ Athena-bp3
 - this is also helpful when you perform multiple joins or aggregations on a query
 
  Athena bp5
+<img width="826" alt="Screen Shot 2022-03-20 at 11 18 03 AM" src="https://user-images.githubusercontent.com/97269758/159197676-cd74e20c-229f-4174-83a7-eaa3af2b702b.png">
 
 ### Optimize file size
 - Queries run more efficiently when reading data can be parallelized and when blocks of data can be read sequentially
