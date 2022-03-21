@@ -63,7 +63,6 @@ CLUSTERED BY(user_id) INTO 256 BUCKETS;
 - in order to do this, Presto must send all rows of data to a single worker node first and them sort them
 - it is advisable to look at the top pr bottom N values while using ORDER BY clause, then use a LIMIT clause to reduce the cost of the sort significantly by pushing the sorting and limiting to individual worker nodes, rather than the sorting being done in an single worker.
 
-Athena-bp2
 <img width="928" alt="Screen Shot 2022-03-20 at 10 54 24 AM" src="https://user-images.githubusercontent.com/97269758/159197411-b36144c3-db78-4934-a0f4-42a7d8594534.png">
 
  
@@ -71,7 +70,6 @@ Athena-bp2
 - Presto does not support join reordering yet so, it will perform joins from left to right.
 - You should specify the tables from largest to smallest while ensuring two tables are not specified together the will result in a cross join
 
-Athena-bp3
 <img width="1036" alt="Screen Shot 2022-03-20 at 10 56 34 AM" src="https://user-images.githubusercontent.com/97269758/159197616-1b4bd99b-d018-4516-b582-89e717829d3b.png">
 
  
@@ -96,14 +94,12 @@ Athena-bp3
 - regular expressions are better to use instead of the LIKE clause when you are filtering for multiple values on a string column
 - this is particularly useful when you are comparing a long list of values
 
- Athena bp4
  <img width="914" alt="Screen Shot 2022-03-20 at 11 13 01 AM" src="https://user-images.githubusercontent.com/97269758/159197660-fbeed024-26b0-4800-a424-94da90a319de.png">
 
 ### Use approximate functions
 - when exploring larger datasets, a common use case is to find the count of distinct values for a certain column usign COUNT(DISTINCT column)
 - if you are looking for which webpages to dive deep into, then using APPROX_DISTINCT() is feasible
  
- Athena bp5
 <img width="948" alt="Screen Shot 2022-03-20 at 11 15 23 AM" src="https://user-images.githubusercontent.com/97269758/159197667-22463cf5-c3a4-488d-955b-d82f604dcabb.png">
 
 ### Use LIMIT clause
@@ -111,7 +107,6 @@ Athena-bp3
 - this reduces the number of data that needs to be processed through the entire query execution pipeline
 - this is also helpful when you perform multiple joins or aggregations on a query
 
- Athena bp5
 <img width="826" alt="Screen Shot 2022-03-20 at 11 18 03 AM" src="https://user-images.githubusercontent.com/97269758/159197676-cd74e20c-229f-4174-83a7-eaa3af2b702b.png">
 
 ### Optimize file size
